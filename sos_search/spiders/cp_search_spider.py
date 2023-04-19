@@ -37,7 +37,7 @@ class CpSearchSpider(Spider):
     def start_requests(self):
         body = {
             # apparently the startswith filter on the website doesn't filter quite good, so we can filter our items later if we require to
-            'SEARCH_VALUE': self.startswith,  # FIXME: needs to be dynamic
+            'SEARCH_VALUE': self.startswith,
             'STARTS_WITH_YN': 'true',  # startswith
             'ACTIVE_ONLY_YN': 'true',  # active only
         }
@@ -114,8 +114,8 @@ class CpSearchSpider(Spider):
         """
         This function is usually called on spider close signal
         """
-        self._generate_graph(True, self.graph_output, 1)
-        self._generate_graph(False, "nolabel_"+self.graph_output, 2)
+        self._generate_graph(True, self.graph_output, 1)  # with labels
+        self._generate_graph(False, "nolabel_"+self.graph_output, 2)  # without
 
     def _generate_graph(self, with_label, fname, fig):
         plt.figure(fig, figsize=(32, 32))
@@ -148,5 +148,3 @@ class CpSearchSpider(Spider):
             return '#EE9E9D'  # Pink
         else:
             return '#87DEE7'  # Blue
-
-# scrapy crawl cp_search_spider -a startswith='X' -a graph_output='GRAPH.png' -O items.json
